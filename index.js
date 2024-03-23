@@ -14,10 +14,17 @@ const translateText = async () => {
       }
     });
 
-    console.log(response.data.translations[0].text);
+    return response.data.translations[0].text;
   } catch (error) {
-    console.error('Error translating text:', error.message);
+    throw new Error('Error translating text:', error.message);
   }
 };
 
-translateText();
+// Usage example:
+translateText()
+  .then(translatedText => {
+    console.log("Translated Text:", translatedText);
+  })
+  .catch(error => {
+    console.error('Error:', error.message);
+  });

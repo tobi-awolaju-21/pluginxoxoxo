@@ -1,0 +1,49 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const axios = require('axios');
+
+const apiKey = 'c0a7daee-7756-eba3-f1cf-6e1ba124ef6d'; // Replace [yourAuthKey] with your actual DeepL API key
+
+const translateText = async () => {
+  try {
+    const response = await axios.post('https://api.deepl.com/v2/translate', {
+      text: ["Hello, world! my guys"],
+      target_lang: "DE"
+    }, {
+      headers: {
+        'Authorization': `DeepL-Auth-Key ${apiKey}`,
+        'Content-Type': 'application/json'
+      }
+    });
+
+    return response.data.translations[0].text;
+  } catch (error) {
+    throw new Error('Error translating text:', error.message);
+  }
+};
+
+// Usage example:
+translateText()
+  .then(translatedText => {
+    console.log("Translated Text:", translatedText);
+  })
+  .catch(error => {
+    console.error('Error:', error.message);
+  });

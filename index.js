@@ -1,13 +1,12 @@
 
 const express = require('express');
 const app = express();
-const authKey = 'c0a7daee-7756-eba3-f1cf-6e1ba124ef6d'; // Replace [yourAuthKey] with your actual DeepL API key
+// Replace [yourAuthKey] with your actual DeepL API key
 const PORT = process.env.PORT || 8081;
 
 
 app.get('/', async (req, res) => {
-  const username = req.query.username || 'myogeshchavan97';
-
+  const authKey = 'c0a7daee-7756-eba3-f1cf-6e1ba124ef6d';
   const translateText = async () => {
     try {
       const response = await axios.post('https://api.deepl.com/v2/translate', {

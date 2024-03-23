@@ -1,30 +1,29 @@
+const express = require('express');
 const axios = require('axios');
+const app = express();
+const PORT = process.env.PORT || 8081;
 
-const apiKey = 'c0a7daee-7756-eba3-f1cf-6e1ba124ef6d'; // Replace [yourAuthKey] with your actual DeepL API key
-
-const translateText = async () => {
+app.get('/', async (req, res) => {
+  const username = req.query.username || 'myogeshchavan97';
   try {
-    const response = await axios.post('https://api.deepl.com/v2/translate', {
-      text: ["Hello, world! my guys"],
-      target_lang: "DE"
-    }, {
-      headers: {
-        'Authorization': `DeepL-Auth-Key ${apiKey}`,
-        'Content-Type': 'application/json'
-      }
-    });
+    const result = await axios.get(
+      `https://api.github.com/users/${username}/repos`
+    );
+    const repos = result.data
+      .map((repo) => ({
+        name: repo.name,
+        url: repo.html_url,
+        description: repo.description,
+        stars: repo.stargazers_count
+      }))
+      .sort((a, b) => b.stars - a.stars);
 
-    return response.data.translations[0].text;
+    res.send(repos);
   } catch (error) {
-    throw new Error('Error translating text:', error.message);
+    res.status(400).send('Error while getting list of repositories');
   }
-};
+});
 
-// Usage example:
-translateText()
-  .then(translatedText => {
-    console.log("Translated Text:", translatedText);
-  })
-  .catch(error => {
-    console.error('Error:', error.message);
-  });
+app.listen(PORT, () => {
+  console.log(`server started on port ${PORT}`);
+});

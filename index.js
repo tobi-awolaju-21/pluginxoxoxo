@@ -5,7 +5,7 @@ const apiKey = 'c0a7daee-7756-eba3-f1cf-6e1ba124ef6d'; // Replace [yourAuthKey] 
 const translateText = async () => {
   try {
     const response = await axios.post('https://api.deepl.com/v2/translate', {
-      text: ["Hello, world!"],
+      text: ["Hello, world! my guys"],
       target_lang: "DE"
     }, {
       headers: {

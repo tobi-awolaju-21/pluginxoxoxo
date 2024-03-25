@@ -100,12 +100,12 @@
   async function translate(text, code) {
     // translation logic here
     // make a GET request
-    console.log("fecting")
+    console.log("fetching")
     let apiUrl = "https://pluginxoxoxo.onrender.com/?text=" + encodeURIComponent(text) + "&target_lang=" + code;
     console.log(apiUrl)
     try {
         const response = await fetch(apiUrl);
-        const data = await response
+        const data = await response.text(); // Get the response as plain text
         console.log(data); // log the response
         // handle the response data here, maybe update UI or do further processing
     } catch (error) {
@@ -113,6 +113,7 @@
         // handle errors here, such as showing an error message to the user
     }
 }
+
 
 
 

@@ -152,6 +152,7 @@ header {
   }
 
   async function translate(text, code) {
+    console.error('Initiating translation');
     // translation logic here
     // make a GET request
     let apiUrl = "https://pluginxoxoxo.onrender.com/?text=" + encodeURIComponent(text) + "&target_lang=" + code;
@@ -159,6 +160,7 @@ header {
         const response = await fetch(apiUrl);
         const data = await response.text(); // Get the response as plain text
         return data; // Return the translated text
+        console.error('Upadting contents');
     } catch (error) {
         console.error('Error fetching translation:', error);
         return text; // Return original text in case of error

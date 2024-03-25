@@ -123,6 +123,7 @@
     const option = document.createElement("a");
     option.textContent = language.name;
     option.onclick = () => {
+      //get the entire page content
       mytext = "Hi guys i miss you all";
       translate(mytext,language.code);
       toggleDropdown();

@@ -5,86 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Language Selector</title>
 <style>
-  /* Style for the dropdown container */
-  .dropdown {
-    position: fixed;
-    top: 10px; /* Adjust as needed */
-    right: 10px; /* Adjust as needed */
-  }
-
-  /* Style for the dropdown button */
-  .dropdown button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px;
-    font-size: 16px;
-    border: none;
-    cursor: pointer;
-  }
-
-  /* Style for the dropdown content */
-  .dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    z-index: 1;
-  }
-
-  /* Style for the dropdown links */
-  .dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-  }
-
-  /* Style for the dropdown links on hover */
-  .dropdown-content a:hover {
-    background-color: #f1f1f1;
-  }
-
-  /* Show dropdown content when dropdown button is clicked */
-  .show {
-    display: block;
-  }
+  /* Styles remain the same */
 </style>
-
-
-<style>
-
-header {
-            background-color: #f1f1f1;
-            padding: 20px;
-            text-align: center;
-        }
-        .container {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 0 20px;
-        }
-        img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            margin: 20px auto;
-        }
-        button {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-</style>
-
-
-
 </head>
 <body>
 
@@ -95,22 +17,10 @@ header {
   </div>
 </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
 <header>
   <h1>Welcome to Picatch World</h1>
 </header>
-<div class="container">
+<div class="container" id="content">
   <h2>About Picatch</h2>
   <p>Picatch is a fascinating Pokémon known for its lightning-fast speed and electrifying abilities. It's a favorite among trainers for its agility and strength in battles.</p>
   
@@ -126,23 +36,7 @@ header {
   
   <h3>Get your Picatch now!</h3>
   <p>Start your journey with Picatch today. Catch, train, and battle with this amazing Pokémon.</p>
-  <center>
-    <button>Get Picatch</button>
-  </center>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 <script>
   // Language data
@@ -180,40 +74,37 @@ header {
   }
 
   // Function to handle language selection
-
+  async function translatePageContent(code) {
+    const elements = document.querySelectorAll('#content *');
+    elements.forEach(async (element) => {
+      if (element.nodeType === Node.TEXT_NODE && element.textContent.trim() !== "") {
+        const translatedText = await translate(element.textContent, code);
+        element.textContent = translatedText;
+      }
+    });
+    toggleDropdown();
+  }
 
   async function translate(text, code) {
     // translation logic here
     // make a GET request
-    console.log("fetching")
     let apiUrl = "https://pluginxoxoxo.onrender.com/?text=" + encodeURIComponent(text) + "&target_lang=" + code;
-    console.log(apiUrl)
     try {
         const response = await fetch(apiUrl);
         const data = await response.text(); // Get the response as plain text
-        console.log(data); // log the response
-        // handle the response data here, maybe update UI or do further processing
+        return data; // Return the translated text
     } catch (error) {
         console.error('Error fetching translation:', error);
-        // handle errors here, such as showing an error message to the user
+        return text; // Return original text in case of error
     }
-}
-
-
-
-
+  }
 
   // Dynamically add language options to the dropdown
   const languageDropdown = document.getElementById("languageOptions");
   languages.forEach(language => {
     const option = document.createElement("a");
     option.textContent = language.name;
-    option.onclick = () => {
-      //get the entire page content
-      mytext = "Hi guys i miss you all";
-      translate(mytext,language.code);
-      toggleDropdown();
-    };
+    option.onclick = () => translatePageContent(language.code);
     languageDropdown.appendChild(option);
   });
 

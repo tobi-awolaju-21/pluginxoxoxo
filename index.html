@@ -85,8 +85,10 @@ img {
   </div>
 </div>
 
-<h1 id="text1">A quick translator demo</h1>
-<p id="text2">Just a quick test for DeepL translator API frontend before porting to Bubble</p>
+<h1 data-translate-id="text1">A quick translator demo</h1>
+<p data-translate-id="text2">Just a quick test for DeepL translator API frontend before porting to Bubble</p>
+<h1 data-translate-id="text3">This is a cat</h1>
+<p data-translate-id="text4">This is a dog</p>
 
 
 <script>
@@ -125,10 +127,8 @@ img {
   }
 
 
-
-
-  // Function to handle language selection
-async function translateAndUpdateUI(text, code) {
+// Function to handle language selection
+async function translateAndUpdateUI(text, code, translateId) {
     // translation logic here
     // make a GET request
     console.log("fetching")
@@ -141,10 +141,10 @@ async function translateAndUpdateUI(text, code) {
         // handle the response data here, maybe update UI or do further processing
         const translatedText = data; // Assuming the response contains the translated text
         // Update the UI with the translated text
-        const textElements = document.querySelectorAll('[id*="text"]');
-        textElements.forEach(element => {
+        const element = document.querySelector(`[data-translate-id="${translateId}"]`);
+        if (element) {
             element.textContent = translatedText;
-        });
+        }
     } catch (error) {
         console.error('Error fetching translation:', error);
         // handle errors here, such as showing an error message to the user
@@ -157,9 +157,10 @@ languages.forEach(language => {
     const option = document.createElement("a");
     option.textContent = language.name;
     option.onclick = () => {
-        const textElements = document.querySelectorAll('[id*="text"]');
+        const textElements = document.querySelectorAll('[data-translate-id]');
         textElements.forEach(element => {
-            translateAndUpdateUI(element.textContent, language.code);
+            const translateId = element.getAttribute('data-translate-id');
+            translateAndUpdateUI(element.textContent, language.code, translateId);
         });
         toggleDropdown();
     };

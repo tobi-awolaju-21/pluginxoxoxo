@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Language Selector</title>
+<style>
+  /* Style for the dropdown container */
+  .dropdown {
+    position: fixed;
+    top: 10px; /* Adjust as needed */
+    right: 10px; /* Adjust as needed */
+  }
+
+  /* Style for the dropdown button */
+  .dropdown button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    cursor: pointer;
+  }
+
+  /* Style for the dropdown content */
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    z-index: 1;
+  }
+
+  /* Style for the dropdown links */
+  .dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  }
+
+  /* Style for the dropdown links on hover */
+  .dropdown-content a:hover {
+    background-color: #f1f1f1;
+  }
+
+  /* Show dropdown content when dropdown button is clicked */
+  .show {
+    display: block;
+  }
+</style>
+</head>
+<body>
+
+<div class="dropdown" id="languageDropdown">
+  <button onclick="toggleDropdown()">Select Language</button>
+  <div class="dropdown-content" id="languageOptions">
+    <!-- Language options will be dynamically added here -->
+  </div>
+</div>
+
+<script>
+  // Language data
+  const languages = [
+    {
+      "name": "English",
+      "code": "EN"
+    },
+    {
+      "name": "German",
+      "code": "DE"
+    },
+    {
+      "name": "French",
+      "code": "FR"
+    },
+    {
+      "name": "Spanish",
+      "code": "ES"
+    },
+    {
+      "name": "Italian",
+      "code": "IT"
+    },
+    {
+      "name": "Portuguese",
+      "code": "PT"
+    }
+  ];
+
+  // Function to toggle dropdown
+  function toggleDropdown() {
+    const dropdownContent = document.getElementById("languageOptions");
+    dropdownContent.classList.toggle("show");
+  }
+
+  // Function to handle language selection
+
+
+  async function translate(text, code) {
+    // translation logic here
+    // make a GET request
+    console.log("fecting")
+    let apiUrl = "https://pluginxoxoxo.onrender.com/?text=" + encodeURIComponent(text) + "&target_lang=" + code;
+    console.log(apiUrl)
+    try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+        console.log(data); // log the response
+        // handle the response data here, maybe update UI or do further processing
+    } catch (error) {
+        console.error('Error fetching translation:', error);
+        // handle errors here, such as showing an error message to the user
+    }
+}
+
+
+
+
+  // Dynamically add language options to the dropdown
+  const languageDropdown = document.getElementById("languageOptions");
+  languages.forEach(language => {
+    const option = document.createElement("a");
+    option.textContent = language.name;
+    option.onclick = () => {
+      mytext = "Hi guys i miss you all";
+      translate(mytext,language.code);
+      toggleDropdown();
+    };
+    languageDropdown.appendChild(option);
+  });
+
+  // Close the dropdown if the user clicks outside of it
+  window.onclick = function(event) {
+    if (!event.target.matches('.dropdown button')) {
+      const dropdowns = document.getElementsByClassName("dropdown-content");
+      for (let i = 0; i < dropdowns.length; i++) {
+        const dropdown = dropdowns[i];
+        if (dropdown.classList.contains('show')) {
+          dropdown.classList.remove('show');
+        }
+      }
+    }
+  }
+</script>
+
+</body>
+</html>

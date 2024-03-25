@@ -3,6 +3,14 @@ const axios = require('axios');
 const app = express();
 const PORT = process.env.PORT || 8081;
 
+// Middleware to enable CORS
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', '*'); // Allow requests from any origin
+  res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS'); // Allow the GET, POST, and OPTIONS methods
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization'); // Allow the specified headers
+  next();
+});
+
 // Endpoint to handle translation requests
 app.get('/', async (req, res) => {
   try {

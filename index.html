@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Language Selector</title>
-
 <style>
   /* Style for the dropdown container */
   .dropdown {
@@ -73,6 +72,9 @@ header {
         }
 
 </style>
+
+
+
 </head>
 <body>
 
@@ -83,10 +85,22 @@ header {
   </div>
 </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
 <header>
   <h1>Welcome to Picatch World</h1>
 </header>
-<div class="container" id="content">
+<div class="container">
   <h2>About Picatch</h2>
   <p>Picatch is a fascinating Pokémon known for its lightning-fast speed and electrifying abilities. It's a favorite among trainers for its agility and strength in battles.</p>
   
@@ -103,6 +117,19 @@ header {
   <h3>Get your Picatch now!</h3>
   <p>Start your journey with Picatch today. Catch, train, and battle with this amazing Pokémon.</p>
 </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 <script>
   // Language data
@@ -140,39 +167,40 @@ header {
   }
 
   // Function to handle language selection
-  async function translatePageContent(code) {
-    const elements = document.querySelectorAll('#content *');
-    elements.forEach(async (element) => {
-      if (element.nodeType === Node.TEXT_NODE && element.textContent.trim() !== "") {
-        const translatedText = await translate(element.textContent, code);
-        element.textContent = translatedText;
-      }
-    });
-    toggleDropdown();
-  }
+
 
   async function translate(text, code) {
-    console.error('Initiating translation');
     // translation logic here
     // make a GET request
+    console.log("fetching")
     let apiUrl = "https://pluginxoxoxo.onrender.com/?text=" + encodeURIComponent(text) + "&target_lang=" + code;
+    console.log(apiUrl)
     try {
         const response = await fetch(apiUrl);
         const data = await response.text(); // Get the response as plain text
-        return data; // Return the translated text
-        console.error('Upadting contents');
+        console.log(data); // log the response
+        // handle the response data here, maybe update UI or do further processing
     } catch (error) {
         console.error('Error fetching translation:', error);
-        return text; // Return original text in case of error
+        // handle errors here, such as showing an error message to the user
     }
-  }
+}
+
+
+
+
 
   // Dynamically add language options to the dropdown
   const languageDropdown = document.getElementById("languageOptions");
   languages.forEach(language => {
     const option = document.createElement("a");
     option.textContent = language.name;
-    option.onclick = () => translatePageContent(language.code);
+    option.onclick = () => {
+      //get the entire page content
+      mytext = "Hi guys i miss you all";
+      translate(mytext,language.code);
+      toggleDropdown();
+    };
     languageDropdown.appendChild(option);
   });
 

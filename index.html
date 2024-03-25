@@ -124,8 +124,11 @@ img {
     dropdownContent.classList.toggle("show");
   }
 
+
+
+
   // Function to handle language selection
-  async function translate(text, code) {
+async function translateAndUpdateUI(text, code) {
     // translation logic here
     // make a GET request
     console.log("fetching")
@@ -136,26 +139,33 @@ img {
         const data = await response.text(); // Get the response as plain text
         console.log(data); // log the response
         // handle the response data here, maybe update UI or do further processing
+        const translatedText = data; // Assuming the response contains the translated text
+        // Update the UI with the translated text
+        const textElements = document.querySelectorAll('[id*="text"]');
+        textElements.forEach(element => {
+            element.textContent = translatedText;
+        });
     } catch (error) {
         console.error('Error fetching translation:', error);
         // handle errors here, such as showing an error message to the user
     }
-  }
+}
 
-  // Dynamically add language options to the dropdown
-  const languageDropdown = document.getElementById("languageOptions");
-  languages.forEach(language => {
+// Dynamically add language options to the dropdown
+const languageDropdown = document.getElementById("languageOptions");
+languages.forEach(language => {
     const option = document.createElement("a");
     option.textContent = language.name;
     option.onclick = () => {
-      const textElements = document.querySelectorAll('[id*="text"]');
-      textElements.forEach(element => {
-        translate(element.textContent, language.code);
-      });
-      toggleDropdown();
+        const textElements = document.querySelectorAll('[id*="text"]');
+        textElements.forEach(element => {
+            translateAndUpdateUI(element.textContent, language.code);
+        });
+        toggleDropdown();
     };
     languageDropdown.appendChild(option);
-  });
+});
+
 
   // Close the dropdown if the user clicks outside of it
   window.onclick = function(event) {

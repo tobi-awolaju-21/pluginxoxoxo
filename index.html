@@ -15,12 +15,12 @@
   /* Style for the dropdown button */
   .dropdown button {
     padding: 8px 28px;
-            background-color: #ffcc00;
-            border-radius: 10px;
-            color: rgb(0, 0, 0);
-            border: none;
-            cursor: pointer;
-            font-size: 13px;
+    background-color: #ffcc00;
+    border-radius: 10px;
+    color: rgb(0, 0, 0);
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
   }
 
   /* Style for the dropdown content */
@@ -55,21 +55,21 @@
 <style>
 
 header {
-            background-color: #ffee00;
-            padding: 20px;
-            text-align: center;
-        }
-        .container {
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 0 20px;
-        }
-        img {
-            max-width: 100%;
-            height: auto;
-            display: block;
-            margin: 20px auto;
-        }
+    background-color: #ffee00;
+    padding: 20px;
+    text-align: center;
+}
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 0 20px;
+}
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 20px auto;
+}
 
 </style>
 
@@ -85,20 +85,8 @@ header {
   </div>
 </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-  <h1 id = "text1">A quick tranlator demo</h1>
-  <p id = "text2"> Just a quick test for deepl tranlator api frontend before porting to bubble</p>
+<h1 id="text1">A quick translator demo</h1>
+<p id="text2">Just a quick test for DeepL translator API frontend before porting to Bubble</p>
 
 
 <script>
@@ -137,8 +125,6 @@ header {
   }
 
   // Function to handle language selection
-
-
   async function translate(text, code) {
     // translation logic here
     // make a GET request
@@ -154,11 +140,7 @@ header {
         console.error('Error fetching translation:', error);
         // handle errors here, such as showing an error message to the user
     }
-}
-
-
-
-
+  }
 
   // Dynamically add language options to the dropdown
   const languageDropdown = document.getElementById("languageOptions");
@@ -166,9 +148,10 @@ header {
     const option = document.createElement("a");
     option.textContent = language.name;
     option.onclick = () => {
-      //get 
-      mytext = "Hi guys i miss you all";
-      translate(mytext,language.code);
+      const textElements = document.querySelectorAll('[id*="text"]');
+      textElements.forEach(element => {
+        translate(element.textContent, language.code);
+      });
       toggleDropdown();
     };
     languageDropdown.appendChild(option);
